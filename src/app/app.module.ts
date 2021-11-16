@@ -20,12 +20,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatLineModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { RatingCategoryPipe } from './pipes/rating-category.pipe';
 
  @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
-    CollectionComponent
+    CollectionComponent,
+    RatingCategoryPipe
   ],
   imports: [
     BrowserModule,
