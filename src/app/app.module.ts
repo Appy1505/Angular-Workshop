@@ -21,13 +21,15 @@ import {MatLineModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { RatingCategoryPipe } from './pipes/rating-category.pipe';
+import { RatingComponent } from './rating/rating.component';
 
  @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
     CollectionComponent,
-    RatingCategoryPipe
+    RatingCategoryPipe,
+    RatingComponent
   ],
   imports: [
     BrowserModule,

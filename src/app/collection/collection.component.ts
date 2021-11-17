@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IBook } from '../ibook';
 @Component({
   selector: 'app-collection',
@@ -35,7 +36,7 @@ export class CollectionComponent implements OnInit {
   openingTime: Date;
   closingTime: Date;
 
-constructor() {
+constructor(private snackBar: MatSnackBar) {
   this.openingTime = new Date();
   this.openingTime.setHours(10,0);
   this.closingTime = new Date();
@@ -44,5 +45,17 @@ constructor() {
 
   ngOnInit(): void {
   }
+  updateMessage(message: string, type: string): void { 
+    
+    if (message) { 
+        this.snackBar.open(`${type}: ${message}`, 'DISMISS', { 
+           duration: 3000 
+        });
+    } 
+  } 
+
+  onRatingUpdate(book: IBook): void { 
+    this.updateMessage(book.title, " Rating has been updated"); 
+   } 
 
 }
