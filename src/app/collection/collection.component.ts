@@ -4,7 +4,6 @@ import { IBook } from '../ibook';
 import { DataService } from '../services/data.service'; 
 import { Subject } from 'rxjs'; 
 @Component({
-  selector: 'app-collection',
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.css']
 })

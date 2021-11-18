@@ -23,14 +23,16 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { RatingCategoryPipe } from './pipes/rating-category.pipe';
 import { RatingComponent } from './rating/rating.component';
 
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
+import { TabsComponent } from './tabs/tabs.component'; 
  @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
     CollectionComponent,
     RatingCategoryPipe,
-    RatingComponent
+    RatingComponent,
+    TabsComponent
   ],
   imports: [
     BrowserModule,
