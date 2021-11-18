@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IBook } from '../ibook';
 import { DataService } from '../services/data.service'; 
-
+import { Subject } from 'rxjs'; 
 @Component({
   selector: 'app-collection',
   templateUrl: './collection.component.html',
@@ -14,7 +14,7 @@ export class CollectionComponent implements OnInit {
   showOperatingHours : boolean = false;
   openingTime: Date;
   closingTime: Date;
-
+  searchTerm$ = new Subject<string>();
 constructor(private snackBar: MatSnackBar,private dataService: DataService) {
   this.openingTime = new Date();
   this.openingTime.setHours(10,0);
@@ -23,7 +23,11 @@ constructor(private snackBar: MatSnackBar,private dataService: DataService) {
  }
 
   ngOnInit() {
-    this.books = this.dataService.getBooks();
+    this.getBooks(); 
+    this.dataService.search(this.searchTerm$)
+       .subscribe(books => { 
+         this.books = books; 
+    }); 
   }
   updateMessage(message: string, type: string): void { 
     if (message) { 
@@ -33,8 +37,17 @@ constructor(private snackBar: MatSnackBar,private dataService: DataService) {
     } 
   } 
 
+  onSearchModified(event: Event) { 
+     this.searchTerm$.next((event.target as HTMLInputElement).value); 
+  }
+    
   onRatingUpdate(book: IBook): void { 
     this.updateMessage(book.title, " Rating has been updated"); 
    } 
+   getBooks(): void { 
+    this.dataService.getBooks().subscribe( 
+        books => this.books = books, 
+        error => this.updateMessage(<any>error, 'ERROR'));
+  } 
 
 }

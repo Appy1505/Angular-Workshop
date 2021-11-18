@@ -9,6 +9,8 @@
       <mat-card-content>{{openingTime | date:'shortTime'}} - {{closingTime | date : 'shortTime'}} (M-F)</mat-card-content> 
     </mat-card>
   </div> 
+  Search Books By Title or Author: 
+  <input (keyup)="onSearchModified($event)"> 
   <div> 
     <mat-list>
       <mat-list-item *ngFor="let book of books"> 

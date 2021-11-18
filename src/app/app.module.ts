@@ -23,6 +23,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { RatingCategoryPipe } from './pipes/rating-category.pipe';
 import { RatingComponent } from './rating/rating.component';
 
+import { HttpClientModule } from '@angular/common/http'; 
  @NgModule({
   declarations: [
     AppComponent,
@@ -47,8 +48,8 @@ import { RatingComponent } from './rating/rating.component';
     MatLineModule,
     MatListModule,
     MatTabsModule,
-    MatToolbarModule
-    
+    MatToolbarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

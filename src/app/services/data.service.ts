@@ -1,3 +1,6 @@
+import { HttpClient  } from '@angular/common/http'; 
+import { throwError, Observable } from 'rxjs'; 
+import { map, catchError,debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'; 
 import { Injectable } from '@angular/core';
 import { IBook } from '../ibook';
 
@@ -5,45 +8,36 @@ import { IBook } from '../ibook';
   providedIn: 'root'
 })
 export class DataService {
-  
-  constructor() { }
-  getBooks(): Array<IBook> { 
+  booksUrl = 'https://bookservicelaurie.azurewebsites.net/api/books';
+  constructor(private http: HttpClient) { }
 
-    return [ 
-        { 
-            id: 1, 
-            title: "JavaScript - The Good Parts", 
-            author: "Douglas Crockford", 
-            isCheckedOut: true, 
-            rating: 3 
-        }, 
-
-        { 
-            id: 2, 
-            title: "The Wind in the Willows", 
-            author: "Kenneth Grahame", 
-            isCheckedOut: false, 
-            rating: 4 
-        }, 
-
-        { 
-
-            id: 3, 
-            title: "Pillars of the Earth",
-            author: "Ken Follett", 
-            isCheckedOut: true, 
-            rating: 5 
-        }, 
-
-        { 
-
-            id: 4, 
-            title: "Harry Potter and the Prisoner of Azkaban",
-            author: "J. K. Rowling", 
-            isCheckedOut: false, 
-            rating: 5
-        } 
-     ]; 
+  private handleError(error: any) { 
+    let errMsg = (error.message) ? error.message : error.status ?  
+    `${error.status} - ${error.statusText}` : 'Server error'; 
+    console.error(errMsg); 
+    return throwError(errMsg); 
+  } 
+   
+  search(terms: Observable<string>) { 
+    return terms 
+      .pipe( 
+        debounceTime(400),
+        distinctUntilChanged(), 
+        switchMap(term => this.getBooks(term))
+      ); 
   } 
 
+  getBooks(query?: string): Observable<IBook[]> { 
+  return this.http.get<IBook[]>(this.booksUrl) 
+    .pipe( 
+      map((books: IBook[]) => { 
+        if (query != null && query.length > 0) {
+          books = books.filter( 
+            data => data.author.includes(query) || data.title.includes(query)) 
+        } 
+        return books; 
+      }), 
+      catchError(this.handleError)); 
+  }
 }
+
